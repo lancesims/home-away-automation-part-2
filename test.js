@@ -15,7 +15,7 @@ describe('ChargePoint Stations nearest Austin', function() {
             state: 'TX'
         })
         .end(function(err, res) {
-            var result = res.res.body;
+            var result = res.body;
             var hyattStation = _.find(result.fuel_stations, function(station) { 
                 return station.station_name === 'HYATT AUSTIN';
             });
@@ -26,11 +26,15 @@ describe('ChargePoint Stations nearest Austin', function() {
         });
     });
 
-    it('should have an address of 208 Barton Springs Rd, Austin, Texas, USA, 78704', function(done) {
-        api.get('/alt-fuel-stations/v1/id/' + stationId + '.json')
+    it('should have an address of 208 Barton Springs Rd, Austin, Texas, 78704', function(done) {
+        api.get('/alt-fuel-stations/v1/' + stationId + '.json?')
             .query({api_key: apiKey})
             .end(function(err, res) {
-                console.log(res);
+                var result = res.body.alt_fuel_station;
+                expect(result.street_address).to.equal('208 Barton Springs Rd');
+                expect(result.city).to.equal('Austin');
+                expect(result.state).to.equal('TX');
+                expect(result.zip).to.equal('78704');
                 done();
             });
     });

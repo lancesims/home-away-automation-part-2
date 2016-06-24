@@ -1,7 +1,7 @@
 var expect = require('chai').expect,
     supertest = require('supertest'),
-    api = supertest('https://developer.nrel.gov/api'),
-    apiKey = 'SFmMYTnCYWyfu3jcVVCtWE5uE4n1YKDNFrPP4aOl',
+    shared = require('./shared'),
+    api = supertest(shared.developerGovAddress),
     _ = require('lodash');
 
 describe('ChargePoint Stations nearest Austin', function() {
@@ -10,7 +10,7 @@ describe('ChargePoint Stations nearest Austin', function() {
     it('should contain HYATT AUSTIN', function(done) {
         api.get('/alt-fuel-stations/v1.json')
         .query({
-            api_key: apiKey, 
+            api_key: shared.apiKey, 
             ev_network:'ChargePoint Network',
             state: 'TX'
         })
@@ -28,7 +28,7 @@ describe('ChargePoint Stations nearest Austin', function() {
 
     it('should have an address of 208 Barton Springs Rd, Austin, Texas, 78704', function(done) {
         api.get('/alt-fuel-stations/v1/' + stationId + '.json?')
-            .query({api_key: apiKey})
+            .query({api_key: shared.apiKey})
             .end(function(err, res) {
                 var result = res.body.alt_fuel_station;
                 expect(result.street_address).to.equal('208 Barton Springs Rd');

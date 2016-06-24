@@ -4,7 +4,7 @@
   "description": "API Testing",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test.js"
+    "test": "npm install && ./node_modules/mocha/bin/mocha test.js"
   },
   "author": "Lance Sims",
   "license": "ISC",
